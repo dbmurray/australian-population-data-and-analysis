@@ -10,7 +10,7 @@ library(dplyr)
 # import the data and separate out the series
 australian_demographic_statistics <- read_abs("3101.0") %>%
   separate_series() %>%
-  mutate(date = as.Date(date))
+  mutate(date = as.Date(date), rundate = Sys.Date())
 
 
 # TIDY DATA
@@ -23,7 +23,7 @@ australian_migration_data <- australian_demographic_statistics %>%
          location != "Australia") %>% # filter for required variables
   mutate(migration_category_series = if_else(metric == "Net Overseas Migration", 
                                              "Overseas","Interstate"),) %>% 
-  select(migration_category_series, date, location, metric, metric_value) # select needed fields only
+  select(migration_category_series, date, location, metric, metric_value, rundate) # select needed fields only
 
 # OUTPUT
 
